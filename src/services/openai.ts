@@ -1,10 +1,12 @@
 import OpenAI from "openai";
 
-// Initialize OpenAI client (optional - only if you have an API key)
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY || "dummy-key",
-  dangerouslyAllowBrowser: true, // Note: In production, API calls should be made from backend
-});
+// Function to create OpenAI client with provided API key
+const createOpenAIClient = (apiKey: string) => {
+  return new OpenAI({
+    apiKey: apiKey || "dummy-key",
+    dangerouslyAllowBrowser: true, // Note: In production, API calls should be made from backend
+  });
+};
 
 export interface IChatMessage {
   role: "user" | "assistant" | "system";
@@ -171,9 +173,13 @@ export class AIService {
    * Send a message to OpenAI and get a response (REQUIRES API KEY & PAYMENT)
    * Using GPT-3.5-turbo which is the most cost-effective model
    */
-  static async sendMessage(messages: IChatMessage[]): Promise<string> {
+  static async sendMessage(
+    messages: IChatMessage[],
+    apiKey?: string
+  ): Promise<string> {
     try {
-      const response = await openai.chat.completions.create({
+      const client = createOpenAIClient(apiKey || "");
+      const response = await client.chat.completions.create({
         model: "gpt-3.5-turbo", // Most cost-effective model
         messages: messages,
         max_tokens: 1000,
@@ -210,10 +216,12 @@ export class AIService {
    * Alternative method using GPT-4o-mini which is even more cost-effective
    */
   static async sendMessageWithGPT4Mini(
-    messages: IChatMessage[]
+    messages: IChatMessage[],
+    apiKey?: string
   ): Promise<string> {
     try {
-      const response = await openai.chat.completions.create({
+      const client = createOpenAIClient(apiKey || "");
+      const response = await client.chat.completions.create({
         model: "gpt-4o-mini", // Even more cost-effective than GPT-3.5-turbo
         messages: messages,
         max_tokens: 1000,
@@ -236,10 +244,12 @@ export class AIService {
    */
   static async sendMessageStreaming(
     messages: IChatMessage[],
-    onChunk: (chunk: string) => void
+    onChunk: (chunk: string) => void,
+    apiKey?: string
   ): Promise<string> {
     try {
-      const stream = await openai.chat.completions.create({
+      const client = createOpenAIClient(apiKey || "");
+      const stream = await client.chat.completions.create({
         model: "gpt-4o-mini",
         messages: messages,
         max_tokens: 2000,
@@ -509,17 +519,15 @@ Smart contracts are immutable once deployed and execute automatically when condi
    */
   static async sendMessageWithProvider(
     messages: IChatMessage[],
-    provider: AIProvider = "duckduckgo"
+    provider: AIProvider = "duckduckgo",
+    apiKey?: string
   ): Promise<string> {
     try {
       switch (provider) {
         case "openai":
           // Only try OpenAI if we have an API key
-          if (
-            import.meta.env.VITE_OPENAI_API_KEY &&
-            import.meta.env.VITE_OPENAI_API_KEY !== "dummy-key"
-          ) {
-            return await this.sendMessage(messages);
+          if (apiKey && apiKey !== "dummy-key") {
+            return await this.sendMessage(messages, apiKey);
           }
           // Fall back to free option if no API key
           return await this.sendMessageDuckDuckGo(messages);
@@ -561,17 +569,15 @@ Smart contracts are immutable once deployed and execute automatically when condi
   static async sendMessageWithProviderStreaming(
     messages: IChatMessage[],
     onChunk: (chunk: string) => void,
-    provider: AIProvider = "local"
+    provider: AIProvider = "local",
+    apiKey?: string
   ): Promise<string> {
     try {
       switch (provider) {
         case "openai":
           // Only try OpenAI if we have an API key
-          if (
-            import.meta.env.VITE_OPENAI_API_KEY &&
-            import.meta.env.VITE_OPENAI_API_KEY !== "dummy-key"
-          ) {
-            return await this.sendMessageStreaming(messages, onChunk);
+          if (apiKey && apiKey !== "dummy-key") {
+            return await this.sendMessageStreaming(messages, onChunk, apiKey);
           }
           // Fall back to mock streaming if no API key
           return await this.sendMessageMockStreaming(messages, onChunk);

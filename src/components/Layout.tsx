@@ -2,7 +2,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import type { IChatThread } from "../global/types";
 import { useState } from "react";
-import Chat from "./Chat";
+import { Outlet } from "react-router";
 
 const Layout = () => {
   const [chatHistory, setChatHistory] = useState<IChatThread[]>(() => {
@@ -54,10 +54,7 @@ const Layout = () => {
           chatHistory={chatHistory}
         />
         <div className="flex-1 h-full min-h-0 min-w-0 overflow-hidden">
-          <Chat
-            chatHistory={chatHistory}
-            handleAddChatThread={handleAddChatThread}
-          />
+          <Outlet context={{ chatHistory, handleAddChatThread }} />
         </div>
       </div>
     </div>

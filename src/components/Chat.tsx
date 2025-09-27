@@ -1,24 +1,26 @@
 import { useEffect, useMemo, useState, useRef } from "react";
-import TextField from "./TextField";
 import MessageRenderer from "./MessageRenderer";
 import { AIService, type IChatMessage } from "../services/openai";
 import type { IChatThread, IMessage } from "../global/types";
-import { useNavigate, useParams } from "react-router";
-import { BiSolidArrowToBottom } from "react-icons/bi";
+import { useNavigate, useParams, useOutletContext } from "react-router";
+import RichTextEditor from "./RichTextEditor";
+import { useApiKey } from "../hooks/useApiKey";
 
-interface IChatProps {
+interface OutletContext {
   chatHistory: IChatThread[];
   handleAddChatThread: (thread: IChatThread) => void;
 }
 
-const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
+const Chat = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { apiKey } = useApiKey();
+  const { chatHistory, handleAddChatThread } =
+    useOutletContext<OutletContext>();
   const [messages, setMessages] = useState<IMessage[]>(
     chatHistory.find((thread) => thread.id === id)?.messages || []
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -33,17 +35,6 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
   // Auto-scroll to bottom function
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    setShowScrollButton(false);
-  };
-
-  // Check if user has scrolled up
-  const handleScroll = () => {
-    if (chatContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } =
-        chatContainerRef.current;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px threshold
-      setShowScrollButton(!isAtBottom && messages.length > 0);
-    }
   };
 
   // Auto-scroll when messages change
@@ -129,7 +120,8 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
           // Auto-scroll during streaming for better UX
           setTimeout(() => scrollToBottom(), 0);
         },
-        "openai" // Using local for demo - change to "openai" if you have API key
+        apiKey ? "openai" : "local", // Use OpenAI if API key is available, otherwise use local
+        apiKey
       );
 
       // Final update to ensure we have the complete response
@@ -174,7 +166,6 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
     <div className="w-full max-w-full h-full flex flex-col gap-1 min-h-0 relative overflow-hidden">
       <div
         ref={chatContainerRef}
-        onScroll={handleScroll}
         className={`w-full max-w-full h-[75%] bg-[#FFFFFF33] blur-background sm:bg-white sm:blur-none sm:text-black rounded-[20px] py-4 pl-4 sm:pl-15 pr-4 flex flex-col gap-3 overflow-auto ${
           messages.length === 0 ? "justify-center items-center" : ""
         }`}
@@ -226,19 +217,11 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Scroll to bottom button */}
-      {showScrollButton && (
-        <button
-          onClick={scrollToBottom}
-          className="absolute bottom-[27%] right-4 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-lg transition-all duration-200 z-10 flex items-center justify-center"
-          aria-label="Scroll to bottom"
-        >
-          <BiSolidArrowToBottom className="w-5 h-5" />
-        </button>
-      )}
-
-      <div className="w-full h-[25%]">
-        <TextField onSendMessage={handleSendMessage} isLoading={isLoading} />
+      <div className="w-full">
+        <RichTextEditor
+          onSendMessage={handleSendMessage}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );

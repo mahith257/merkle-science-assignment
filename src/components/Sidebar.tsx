@@ -3,7 +3,7 @@ import {
   TbLayoutSidebarLeftCollapseFilled,
   TbLayoutSidebarRightCollapseFilled,
 } from "react-icons/tb";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useLocation } from "react-router";
 import type { IChatThread } from "../global/types";
 
 interface ISidebarProps {
@@ -16,6 +16,7 @@ interface ISidebarProps {
 const Sidebar = forwardRef<HTMLDivElement, ISidebarProps>(
   ({ isOpen, onToggle, className, chatHistory }, ref) => {
     const { id } = useParams();
+    const location = useLocation();
 
     return isOpen ? (
       <div
@@ -56,11 +57,16 @@ const Sidebar = forwardRef<HTMLDivElement, ISidebarProps>(
           </div>
         </div>
         <div className="flex flex-col gap-4 border-t-2 border-gray-300 pt-1 flex-shrink-0">
-          <button
-            className={`py-3 px-2 text-md font-light hover:bg-blue-100 rounded-md cursor-pointer text-black text-left`}
+          <Link
+            to="/settings"
+            className={`py-3 px-2 text-md font-light hover:bg-blue-100 rounded-md cursor-pointer text-left ${
+              location.pathname === "/settings"
+                ? "text-[#2563EB] bg-blue-200 font-medium"
+                : "text-black"
+            }`}
           >
             Settings
-          </button>
+          </Link>
         </div>
       </div>
     ) : (
