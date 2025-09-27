@@ -34,7 +34,8 @@ const Sidebar = forwardRef<HTMLDivElement, ISidebarProps>(
             <Link
               to="/"
               className={`py-3 px-2 text-md font-light hover:bg-blue-100 rounded-md cursor-pointer flex-shrink-0 ${
-                id === undefined
+                location.pathname !== "/settings" &&
+                (location.pathname === "/" || id === undefined)
                   ? "text-[#2563EB] bg-blue-200 font-medium"
                   : "text-black"
               }`}
