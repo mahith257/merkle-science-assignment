@@ -124,7 +124,7 @@ const Chat = () => {
           // Auto-scroll during streaming for better UX
           setTimeout(() => scrollToBottom(), 0);
         },
-        apiKey ? "openai" : "local", // Use OpenAI if API key is available, otherwise use local
+        apiKey ? "openai" : "duckduckgo", // Use OpenAI if API key is available, otherwise use local
         apiKey
       );
 
