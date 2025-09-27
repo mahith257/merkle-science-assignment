@@ -12,9 +12,7 @@ const MessageRenderer = ({
   className = "",
 }: IMessageRendererProps) => {
   return (
-    <div
-      className={`prose prose-invert max-w-full overflow-hidden break-words ${className}`}
-    >
+    <div className={`max-w-full overflow-hidden break-words ${className}`}>
       <ReactMarkdown
         components={{
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -102,30 +100,45 @@ const MessageRenderer = ({
             return <p className="mb-2 last:mb-0">{children}</p>;
           },
           ul({ children }) {
-            return (
-              <ul className="list-disc list-inside mb-2 space-y-1">
-                {children}
-              </ul>
-            );
+            return <ul className="mb-3 space-y-2 pl-2">{children}</ul>;
           },
           ol({ children }) {
             return (
-              <ol className="list-decimal list-inside mb-2 space-y-1">
+              <ol className="list-decimal list-inside mb-3 space-y-2 pl-4">
                 {children}
               </ol>
             );
           },
           li({ children }) {
-            return <li className="text-sm">{children}</li>;
+            return (
+              <li className="text-sm mb-1 leading-relaxed flex items-start">
+                <span className="mr-2 mt-0.5 text-current font-bold leading-none">
+                  •
+                </span>
+                <span className="flex-1">{children}</span>
+              </li>
+            );
           },
           h1({ children }) {
-            return <h1 className="text-xl font-bold mb-2">{children}</h1>;
+            return (
+              <h1 className="text-xl font-bold mb-3 mt-4 first:mt-0">
+                {children}
+              </h1>
+            );
           },
           h2({ children }) {
-            return <h2 className="text-lg font-bold mb-2">{children}</h2>;
+            return (
+              <h2 className="text-lg font-bold mb-2 mt-3 first:mt-0">
+                {children}
+              </h2>
+            );
           },
           h3({ children }) {
-            return <h3 className="text-base font-bold mb-2">{children}</h3>;
+            return (
+              <h3 className="text-base font-bold mb-2 mt-2 first:mt-0">
+                {children}
+              </h3>
+            );
           },
           strong({ children }) {
             return <strong className="font-semibold">{children}</strong>;

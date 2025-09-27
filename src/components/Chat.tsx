@@ -105,7 +105,7 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
         {
           role: "system",
           content:
-            "You are a helpful AI assistant. Provide concise and helpful responses.",
+            "You are a specialized AI assistant expert in cryptocurrency, blockchain technology, DeFi, NFTs, and Web3. You provide accurate, detailed, and educational responses about crypto and blockchain topics. Structure your responses with clear headings, bullet points, and include relevant code examples when applicable. Cover technical concepts, market analysis, security best practices, regulatory aspects, and emerging trends. Always prioritize accuracy and provide up-to-date information while explaining complex concepts in an accessible manner.",
         },
         ...messages.map((msg) => ({
           role: msg.type,
@@ -175,9 +175,9 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
       <div
         ref={chatContainerRef}
         onScroll={handleScroll}
-        className={`w-full max-w-full h-[75%] bg-[#FFFFFF33] rounded-[20px] py-4 pl-4 sm:pl-15 pr-4 flex flex-col gap-3 overflow-auto ${
+        className={`w-full max-w-full h-[75%] bg-[#FFFFFF33] blur-background sm:bg-white sm:blur-none sm:text-black rounded-[20px] py-4 pl-4 sm:pl-15 pr-4 flex flex-col gap-3 overflow-auto ${
           messages.length === 0 ? "justify-center items-center" : ""
-        } blur-background`}
+        }`}
       >
         {messages.map((message) => {
           return (
@@ -192,20 +192,24 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
               <div
                 className={`w-fit h-fit max-w-[calc(100%-28px)] rounded-xl rounded-tr-none p-2 ${
                   message.type === "user" ? "bg-[#EFF6FF]" : "bg-none"
-                } ${message.type === "user" ? "text-[#1E40AF]" : "text-white"}`}
+                } ${
+                  message.type === "user"
+                    ? "text-[#1E40AF]"
+                    : "text-white sm:text-black"
+                }`}
               >
                 {message.message === "" && isLoading ? (
                   "Searching..."
                 ) : message.type === "assistant" ? (
                   <MessageRenderer
                     content={message.message}
-                    className="text-white max-w-full"
+                    className="text-white max-w-full sm:text-black"
                   />
                 ) : (
                   message.message
                 )}
               </div>
-              <div className="w-[20px] h-[20px] gradient-avatar rounded-full flex items-center justify-center text-white text-[8px] border-1 border-white">
+              <div className="w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] gradient-avatar rounded-full flex items-center justify-center text-white text-[8px] sm:text-[10px] border-1 border-white">
                 {message.type === "user" ? "U" : "AI"}
               </div>
             </div>
@@ -213,7 +217,7 @@ const Chat = ({ chatHistory, handleAddChatThread }: IChatProps) => {
         })}
 
         {messages.length === 0 ? (
-          <p className="text-white text-sm">
+          <p className="text-white text-sm sm:text-black sm:text-xl sm:font-bold">
             Ask anything about blockchain, cryptocurrency
           </p>
         ) : null}
