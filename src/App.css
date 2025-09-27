@@ -1,0 +1,8 @@
+.gradient-avatar {
+  background: linear-gradient(0deg, #8b5cf6, #8b5cf6),
+    linear-gradient(217.13deg, #1d4ed8 -58.23%, #7c3aed 98.46%);
+}
+
+.blur-background {
+  backdrop-filter: blur(206.5px);
+}
