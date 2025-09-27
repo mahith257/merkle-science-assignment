@@ -1,73 +1,203 @@
-# React + TypeScript + Vite
+# Crypto AI Chat Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive AI-powered chat application specialized in cryptocurrency, blockchain technology. Built with React, TypeScript, and Vite, featuring a rich text editor and seamless OpenAI integration.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🤖 **AI-Powered Responses** - Specialized in crypto, blockchain, DeFi, NFTs, and Web3
+- 📝 **Rich Text Editor** - Format messages with bold, italic, headings, and lists
+- 😊 **Emoji Support** - Built-in emoji picker for expressive conversations
+- 💾 **Persistent Chat History** - Conversations saved locally in your browser
+- 🔐 **Secure API Key Management** - Your OpenAI API key stored locally, never sent to servers
+- 📱 **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
+- 🎨 **Modern UI** - Beautiful, intuitive interface with smooth animations
+- ⚡ **Real-time Streaming** - See AI responses as they're generated
 
-## React Compiler
+## 🚀 Quick Start
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+- **Node.js** (version 20.19+ or 22.12+) - _Required by Vite_
+- **npm** or **yarn**
+- **OpenAI API Key** (optional, but required for AI responses)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. **Clone the repository**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+   ```bash
+   git clone <repository-url>
+   cd merkle-science-assignment
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:5173`
+
+## 🔑 Setting Up Your OpenAI API Key
+
+### Getting Your API Key
+
+1. **Visit OpenAI Platform**
+   Go to [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+
+2. **Sign In**
+   Log in to your OpenAI account (create one if needed)
+
+3. **Create API Key**
+   - Click "Create new secret key"
+   - Give it a name (e.g., "Crypto Chat App")
+   - Copy the generated key (starts with `sk-`)
+
+### Adding Your API Key to the App
+
+1. **Open the Application**
+   Launch the app in your browser
+
+2. **Navigate to Settings**
+
+   - Click the hamburger menu (☰) in the top-left corner
+   - Select "Settings" from the sidebar
+
+3. **Enter Your API Key**
+
+   - Paste your OpenAI API key in the input field
+   - Click "Save API Key"
+   - You should see "API Key Configured" status
+
+4. **Start Chatting**
+   - Navigate back to the chat (click "Home" in sidebar)
+   - Your messages will now get real AI responses!
+
+### Without API Key
+
+If you don't have an OpenAI API key, the app will still work with:
+
+- Mock AI responses for demonstration
+- Full rich text editing capabilities
+- Chat history and all UI features
+
+## 📖 How to Use
+
+### Basic Chat
+
+1. **Start a Conversation**
+
+   - Type your message in the rich text editor at the bottom
+   - Press the send button (→) to send
+
+2. **Ask About Crypto Topics**
+   The AI is specialized in:
+   - Cryptocurrency fundamentals
+   - Blockchain technology
+   - DeFi protocols and strategies
+   - NFT markets and trends
+   - Web3 development
+   - Smart contracts
+   - Trading strategies
+   - Regulatory updates
+
+### Rich Text Formatting
+
+**Toolbar Options:**
+
+- **Bold** - Make text bold
+- **Italic** - Make text italic
+- **Underline** - Underline text
+- **Headings** - Create H1 and H2 headings
+- **Lists** - Add bullet points or numbered lists
+- **Emojis** - Insert emojis with the picker
+
+**Keyboard Shortcuts:**
+
+- `Ctrl/Cmd + B` - Bold
+- `Ctrl/Cmd + I` - Italic
+- `Ctrl/Cmd + U` - Underline
+
+### Managing Conversations
+
+- **Multiple Chats** - Each conversation is automatically saved
+- **Chat History** - Access previous conversations from the sidebar
+- **Persistent Storage** - All chats saved in your browser's local storage
+
+## 🛠️ Development
+
+### Tech Stack
+
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Rich Text**: Lexical Editor Framework
+- **Routing**: React Router v7
+- **Icons**: React Icons
+- **AI Integration**: OpenAI API
+
+### Project Structure
+
+```
+src/
+├── components/          # React components
+│   ├── Chat.tsx        # Main chat interface
+│   ├── RichTextEditor.tsx  # Rich text editor
+│   ├── Settings.tsx    # API key management
+│   └── ...
+├── contexts/           # React contexts
+│   ├── ApiKeyContext.tsx   # API key management
+│   └── apiKeyTypes.ts
+├── hooks/              # Custom React hooks
+├── services/           # API services
+│   └── openai.ts      # OpenAI integration
+├── utils/              # Utility functions
+└── global/             # Global types and constants
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Development
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Code Quality
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript checks
 ```
+
+### Environment Variables
+
+No environment variables are required! The app uses user-provided API keys stored locally for maximum security and flexibility.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Getting Help
+
+If you encounter issues:
+
+1. Check the browser console for error messages
+2. Verify your OpenAI API key is valid
+3. Try clearing your browser's local storage
+4. Refresh the page and try again
+
+---

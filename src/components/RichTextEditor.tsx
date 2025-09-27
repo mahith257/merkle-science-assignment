@@ -34,6 +34,7 @@ import { MdArrowDropDown } from "react-icons/md";
 import EmojiPickerModal from "./EmojiPickerModal";
 import {
   extractTextFromEditorState,
+  extractHtmlFromEditorState,
   clearEditorContent,
   richTextTheme,
 } from "../utils/richTextUtils";
@@ -41,7 +42,7 @@ import { type EmojiClickData } from "emoji-picker-react";
 import { GrAttachment } from "react-icons/gr";
 
 interface IRichTextEditorProps {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string, htmlContent?: string) => void;
   isLoading: boolean;
 }
 
@@ -307,8 +308,12 @@ const RichTextEditor = ({ onSendMessage, isLoading }: IRichTextEditorProps) => {
       editorRef.current.getEditorState()
     ).trim();
 
+    const htmlContent = extractHtmlFromEditorState(
+      editorRef.current.getEditorState()
+    ).trim();
+
     if (textContent) {
-      onSendMessage(textContent);
+      onSendMessage(textContent, htmlContent);
       clearEditorContent(editorRef.current);
       setEditorState("");
     }

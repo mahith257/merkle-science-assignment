@@ -49,7 +49,10 @@ const Chat = () => {
     }
   }, [isLoading]);
 
-  const handleSendMessage = async (userMessage: string) => {
+  const handleSendMessage = async (
+    userMessage: string,
+    htmlContent?: string
+  ) => {
     if (!userMessage.trim()) return;
 
     const newId = Date.now().toString();
@@ -63,6 +66,7 @@ const Chat = () => {
       id: Date.now().toString(),
       type: "user",
       message: userMessage,
+      htmlContent: htmlContent,
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -195,6 +199,11 @@ const Chat = () => {
                   <MessageRenderer
                     content={message.message}
                     className="text-white max-w-full sm:text-black"
+                  />
+                ) : message.htmlContent ? (
+                  <div
+                    className="rich-text-content"
+                    dangerouslySetInnerHTML={{ __html: message.htmlContent }}
                   />
                 ) : (
                   message.message
