@@ -194,7 +194,7 @@ const Chat = () => {
                 }`}
               >
                 {message.message === "" && isLoading ? (
-                  "Searching..."
+                  `Searching for ${messages[messages.length - 2]?.message}...`
                 ) : message.type === "assistant" ? (
                   <MessageRenderer
                     content={message.message}

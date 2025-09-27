@@ -373,7 +373,7 @@ const RichTextEditor = ({ onSendMessage, isLoading }: IRichTextEditorProps) => {
             disabled={!editorState.trim() || isLoading}
             className={`w-fit ${
               editorState.trim() && !isLoading
-                ? "bg-[#2563EB] hover:bg-[#1D4ED8]"
+                ? "bg-[#2563EB] hover:bg-[#1D4ED8] cursor-pointer"
                 : "bg-[#60A5FA] cursor-not-allowed"
             } text-white rounded-lg py-[9px] px-[12px] outline-none flex items-center justify-center gap-1 shadow-[0px_1px_2px_0px_#0000000F] transition-colors`}
           >
